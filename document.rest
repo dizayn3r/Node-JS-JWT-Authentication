@@ -1,0 +1,25 @@
+GET http://localhost:8000/
+
+###
+
+POST http://localhost:8000/api/user/register
+Content-Type: application/json
+
+{
+  "name": "John",
+  "username": "john",
+  "email": "john@example.com",
+  "password": "password",
+  "confirm_password": "password",
+  "isAdmin": true
+}
+
+###
+
+POST http://localhost:8000/api/user/login
+Content-Type: application/json
+
+{
+  "email": "john@example.com",
+  "password": "password"
+}
