@@ -2,6 +2,7 @@ import UserModel from "../models/User.js";
 import mongoose from "mongoose";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import transporter from "../configs/email_config.js";
 
 class UserController {
   // User Registration
@@ -188,8 +189,24 @@ class UserController {
         const token = jwt.sign({ user_id: user._id }, secret, {
           expiresIn: "5m",
         });
-        const link = `http://localhost:3000/api/user/reset/${user._id}/${token}`;
-        console.log(link);
+        const link = `http://localhost:3000/api/users/set-password/${user._id}/${token}`;
+        // Send email with the link
+
+        transporter.sendMail(
+          {
+            from: process.env.EMAIL_FROM,
+            to: user.email,
+            subject: "Password Reset Link",
+            text: link,
+          },
+          (err, info) => {
+            if (err) {
+              console.log(err);
+            } else {
+              console.log(info.messageId);
+            }
+          }
+        );
         res.send({ status: "success", message: "E-mail is send." });
       } else {
         res.send({ status: "failed", message: "Email does not exist." });

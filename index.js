@@ -22,19 +22,11 @@ connectDB(MONGO_CONNECTION_STRING);
 app.use(express.json());
 
 // Load routes
-app.use("/api/user", userRoutes);
-app.use("/api/", authRoutes);
+app.use("/api/users", userRoutes);
+app.use("/api", authRoutes);
 
 app.get('/', (req, res) => {
   res.send('Hello World!')
-})
-
-app.put('/user', (req, res) => {
-  res.send('Got a PUT request at /user')
-})
-
-app.delete('/user', (req, res) => {
-  res.send('Got a DELETE request at /user')
 })
 
 app.listen(port, () => {
